@@ -1,0 +1,1 @@
+g++ -Wall -Wfatal-errors -std=c++17 -o game ./Main.cpp
