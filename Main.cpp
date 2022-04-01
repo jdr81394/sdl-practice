@@ -19,6 +19,220 @@ int main(int argc, char* argv[]){
         SDL_WINDOW_SHOWN       
     );
 
+  SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+  /* NOTES */
+  /*
+
+  An SDL surface is just some amount of pixels
+  ________________________
+  |                     |
+  |                     |
+  |                     |
+  |                     |
+  |                     |    
+  |                     |
+  |                     |
+  -----------------------
+    ^
+    |
+    |
+    |
+    |
+    A Texture USES a surface. The texture is image data that is hosted on the GPU.
+    It is inside of video memory. A texture USES surface pixels.
+
+    SDL_CreateTextureFromSurface() explanation:
+    This takes the surface that you have created, maybe you created a surface from a bmp/png.
+    Now, it converts a texture. A texutre is on the hardware. It could be uploaded to the hardware which allows for
+    better ways to draw something.
+
+  */
+
+   SDL_Surface* surface = SDL_LoadBMP("./assets/blender.bmp");
+   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    // After you create a texture from a surface you can free it.
+    // Since the surface uploaded to the gpu as a texture, you can free it.
+
+    SDL_FreeSurface(surface);
+
+
+    // Infinite Loop for our application
+    bool gameIsRunning = true;
+
+
+    while(gameIsRunning) {
+        SDL_Event event;
+        while(SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT) {
+                gameIsRunning = false;
+            }
+
+            // Clears the screen of anything that might have been there before
+
+            // (2) handle updates
+
+            // (3) clear and draw the screen
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0,0);
+            SDL_RenderClear(renderer);
+
+            SDL_SetRenderDrawColor(renderer, 255,255,200,255);
+            SDL_RenderDrawLine(renderer, 5,5,200,200);
+
+            // SDL_RenderCopy
+
+            SDL_Rect rectangle = {
+                100,100,100,100
+            };
+
+            /* NOTES */
+            /*
+                Here, were taking the texture and applying it to the renderer.
+                3rd argument is what portion of the texture, NULL for the whole thing
+                4th argument is where on the window you want that to go.
+            */
+            SDL_RenderCopy(renderer,texture, NULL,&rectangle);
+
+            // (4) Finally show what we have drawn
+            SDL_RenderPresent(renderer);
+            
+        }
+    }
+
+    SDL_DestroyTexture(texture);    
+    SDL_DestroyWindow(window);
+
+    SDL_Quit();
+    return 0;
+
+};
+
+
+
+// https://www.youtube.com/watch?v=75yEVx8iXYQ&list=PLvv0ScY6vfd-p1gSnbQhY7vMe2rng0IL0&index=17
+int texturedRectanglesWithSDLTextureAndSdlRenderCopy() {
+    
+    SDL_Window* window = nullptr;
+    SDL_Surface* screen;
+
+    if( SDL_Init(SDL_INIT_VIDEO) < 0 ) 
+        std::cout << "SDL could not be initialized" << SDL_GetError();
+
+    window = SDL_CreateWindow(
+        "An SDL2 window",
+        1000,
+        1000,
+        1000,
+        1000,
+        SDL_WINDOW_SHOWN       
+    );
+
+  SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+  /* NOTES */
+  /*
+
+  An SDL surface is just some amount of pixels
+  ________________________
+  |                     |
+  |                     |
+  |                     |
+  |                     |
+  |                     |    
+  |                     |
+  |                     |
+  -----------------------
+    ^
+    |
+    |
+    |
+    |
+    A Texture USES a surface. The texture is image data that is hosted on the GPU.
+    It is inside of video memory. A texture USES surface pixels.
+
+    SDL_CreateTextureFromSurface() explanation:
+    This takes the surface that you have created, maybe you created a surface from a bmp/png.
+    Now, it converts a texture. A texutre is on the hardware. It could be uploaded to the hardware which allows for
+    better ways to draw something.
+
+  */
+
+   SDL_Surface* surface = SDL_LoadBMP("./assets/blender.bmp");
+   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+    // After you create a texture from a surface you can free it.
+    // Since the surface uploaded to the gpu as a texture, you can free it.
+
+    SDL_FreeSurface(surface);
+
+
+    // Infinite Loop for our application
+    bool gameIsRunning = true;
+
+
+    while(gameIsRunning) {
+        SDL_Event event;
+        while(SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT) {
+                gameIsRunning = false;
+            }
+
+            // Clears the screen of anything that might have been there before
+
+            // (2) handle updates
+
+            // (3) clear and draw the screen
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0,0);
+            SDL_RenderClear(renderer);
+
+            SDL_SetRenderDrawColor(renderer, 255,255,200,255);
+            SDL_RenderDrawLine(renderer, 5,5,200,200);
+
+            // SDL_RenderCopy
+
+            SDL_Rect rectangle = {
+                100,100,100,100
+            };
+
+            /* NOTES */
+            /*
+                Here, were taking the texture and applying it to the renderer.
+                3rd argument is what portion of the texture, NULL for the whole thing
+                4th argument is where on the window you want that to go.
+            */
+            SDL_RenderCopy(renderer,texture, NULL,&rectangle);
+
+            // (4) Finally show what we have drawn
+            SDL_RenderPresent(renderer);
+            
+        }
+    }
+
+    SDL_DestroyTexture(texture);    
+    SDL_DestroyWindow(window);
+
+    SDL_Quit();
+    return 0;
+
+}
+// https://www.youtube.com/watch?v=9P_MAgSNZx8&list=PLvv0ScY6vfd-p1gSnbQhY7vMe2rng0IL0&index=17
+int renderDrawLinesAndRectanglesUsingSdlRenderer() {
+       SDL_Window* window = nullptr;
+    SDL_Surface* screen;
+
+    if( SDL_Init(SDL_INIT_VIDEO) < 0 ) 
+        std::cout << "SDL could not be initialized" << SDL_GetError();
+
+    window = SDL_CreateWindow(
+        "An SDL2 window",
+        1000,
+        1000,
+        1000,
+        1000,
+        SDL_WINDOW_SHOWN       
+    );
+
     /* NOTESSSS */
     // Difference between drawing using renderer and using surfaces
     // Rendering must be continually drawn through time
@@ -74,8 +288,7 @@ int main(int argc, char* argv[]){
 
     SDL_Quit();
     return 0;
-
-};
+}
 
 // https://www.youtube.com/watch?v=YlwDwC4H47s&list=PLvv0ScY6vfd-p1gSnbQhY7vMe2rng0IL0&index=14
 int sdlSurfaceGetWindowSurfaceAndSdlLoadBmp() {
